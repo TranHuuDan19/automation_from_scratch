@@ -23,7 +23,7 @@ export default defineConfig({
       testMatch: '**/utils/config/auth.setup.ts',
     },
     {
-      name: 'admin',
+      name: 'run test',
       testMatch: '**/pom/tests/*.spec.ts',
       dependencies: ['setup'],
       use: { storageState: `storage/auth-${process.env.NODE_ENV}.json` },

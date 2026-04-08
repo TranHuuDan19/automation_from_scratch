@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-  test:
+  run_smoke_test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -23,7 +23,7 @@ jobs:
         NODE_ENV: dev
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
-        BASEURL:  ${{secrets.BASEURL}}
+        BASE_URL:  ${{secrets.BASE_URL}}
 
     - uses: actions/upload-artifact@v4
       if: always() && !cancelled()

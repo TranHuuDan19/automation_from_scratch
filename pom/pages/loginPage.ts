@@ -12,7 +12,8 @@ export class LoginPage {
   }
 
     async loginWithCredentials(username: string, password: string) {
-        console.log("--- Logging in with credentials: ", { username, password });
+        await this.page.waitForLoadState('domcontentloaded');
+        console.log(`--- Logging in with credentials: , { username, password } ---`);
         await waitAndInput(this.page, this.locators.userName, username);
         await waitAndInput(this.page, this.locators.password, password);
         await waitAndClick(this.page, this.locators.loginButton);
