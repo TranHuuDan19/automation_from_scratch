@@ -11,10 +11,10 @@ export function generateEmployee() {
   }).slice(0, 10); 
 
   const password = faker.internet.password({
-    length: 10,
+    length: 8,
     memorable: false,
     pattern: /[A-Za-z0-9!@#$%^&*]/,
-  });
+  })+'a1';
 
   return {
     firstName,

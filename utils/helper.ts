@@ -52,5 +52,4 @@ export async function waitAndRadioCheck(page: Page, locator: Locator,value: stri
         await locator.waitFor({ state: "visible", timeout: timeout ?? 10000 });
         await locator.first().click();
         await expect(locator).toBeChecked();
-        await page.pause();
 }

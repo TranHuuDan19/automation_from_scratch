@@ -1,7 +1,5 @@
 name: Playwright Tests
 on:
-  push:
-    branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
 jobs:
@@ -12,16 +10,24 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
-        node-version: lts/*
+        node-version: 18
     - name: Install dependencies
       run: npm ci
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npx playwright test -g \"@smoke\"
+      env:
+        NODE_ENV: dev
+        USERNAME: ${{ secrets.USERNAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        BASEURL:  ${{secrets.BASEURL}}
+
     - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
+      if: always() && !cancelled()
       with:
-        name: playwright-report
+        name: test-artifacts-${{ github.run_id }}
         path: playwright-report/
-        retention-days: 30
+        retention-days: 7

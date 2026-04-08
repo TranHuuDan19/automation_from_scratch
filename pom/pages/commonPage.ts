@@ -28,16 +28,11 @@ export class CommonPage {
     }
 
     async selectLeftSidebarMenuItem(itemName: string) {
-        const sidebarExpanded = await this.page.locator(this.locators.subMenu).first().isVisible();
-        if (!sidebarExpanded) {
-            await this.page.click(this.locators.expandButton);
-            await this.page.waitForSelector(this.locators.subMenu, { state: 'visible', timeout: 5000 });
-        }
         const subMenuItems = await this.page.locator(this.locators.subMenu).filter({hasText : itemName});
         try {
             await subMenuItems.first().waitFor({ state: 'visible', timeout: 5000 });
             await subMenuItems.first().click();
-            await this.page.waitForLoadState('networkidle');
+            await this.page.waitForLoadState('load');
         }
         catch (error) {
             throw new Error(`Failed to click submenu item "${itemName}": ${error}`);
@@ -51,7 +46,7 @@ export class CommonPage {
         try {
             await mainMenuItems.first().waitFor({ state: 'visible', timeout: 5000 });
             await mainMenuItems.first().click();
-            await this.page.waitForLoadState('networkidle');
+            await this.page.waitForLoadState('load');
         }
         catch (error) {
             throw new Error(`Failed to click main menu item "${itemName}": ${error}`);
@@ -64,6 +59,7 @@ export class CommonPage {
         try {
             await buttonLocator.first().waitFor({ state: 'visible', timeout: 5000 });
             await waitAndClick(this.page,buttonLocator.first(), 5000);
+            await this.page.waitForLoadState('load');
         }
         catch (error) {
             throw new Error(`Failed to click on button "${buttonName}": ${error}`);
@@ -154,7 +150,6 @@ export class CommonPage {
      async radioCheckWithLabel(radioCheckboxLabel: string, value: string) {
         const radioCheckFieldLocator = await this.page.locator(this.locators.inputComponent, { hasText: radioCheckboxLabel })
         .locator('label', { hasText: value });
-        console.log('radioCheckFieldLocator:',radioCheckFieldLocator);
         try {
             await radioCheckFieldLocator.first().waitFor({ state: 'visible', timeout: 5000 });
             await waitAndRadioCheck(this.page,radioCheckFieldLocator, value);

@@ -17,8 +17,7 @@ export class LoginPage {
         await waitAndInput(this.page, this.locators.password, password);
         await waitAndClick(this.page, this.locators.loginButton);
         await this.page.waitForURL(url => url.toString().includes('/dashboard'), { timeout: 15000 });
-        await this.page.waitForLoadState('networkidle');
-        console.log(`--- URL after login successfully: ${this.page.url()}`);
+        await this.page.waitForLoadState('load');
     }
 
 }
