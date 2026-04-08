@@ -10,13 +10,15 @@ test.describe('add user', () => {
   test.beforeEach(async ({ page }) => {
     test.info().setTimeout(360000);
     commonPage = new CommonPage(page);
-    await page.goto(env.baseURL, { waitUntil: 'load' });
+    await page.goto(env.baseURL);
+    await page.waitForLoadState('load');
+    await page.waitForLoadState('domcontentloaded');
     await commonPage.selectLeftSidebarMenuItem('PIM');
     await commonPage.selectMainMenuItem('Add Employee');
 
     // setup data
     employee = await generateEmployeeInfo();
-    console.log(employee);
+    
   });
   test('add user',{tag: '@smoke' }, async () => {
     await commonPage.inputValueToFieldWithPlaceholder('First Name', employee.firstName);
