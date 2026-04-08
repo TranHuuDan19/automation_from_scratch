@@ -1,0 +1,57 @@
+name: Playwright Run Smoke Tests
+
+on:
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  run_smoke_test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Cache npm
+      uses: actions/cache@v4
+      with:
+        path: ~/.npm
+        key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+        restore-keys: |
+          npm-${{ runner.os }}-
+
+    - run: npm ci
+
+    - name: Cache Playwright Browsers
+      id: cache-playwright
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+    - name: Install Playwright Browsers
+      if: steps.cache-playwright.outputs.cache-hit != 'true'
+      run: npx playwright install chromium --with-deps
+
+    - name: Run Playwright tests
+      run: npx playwright test -g "@smoke"
+      env:
+        CI: true
+        NODE_ENV: dev
+        USERNAME: ${{ secrets.USERNAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+        BASE_URL: ${{ secrets.BASE_URL }}
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      if: always() && !cancelled()
+      with:
+        name: test-artifacts-${{ github.run_id }}
+        path: |
+          playwright-report/
+          test-results/
+        retention-days: 7

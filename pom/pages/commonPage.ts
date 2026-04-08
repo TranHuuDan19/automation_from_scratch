@@ -17,10 +17,11 @@ export class CommonPage {
     }
 
     async searchInLeftSidebar(searchTerm: string) {
+        await this.page.waitForLoadState('domcontentloaded');
         const sidebarExpanded = await this.page.locator(this.locators.subMenu).first().isVisible();
         if (!sidebarExpanded) {
             await this.page.click(this.locators.expandButton);
-            await this.page.waitForSelector(this.locators.search, { state: 'visible', timeout: 5000 });
+            await this.page.waitForSelector(this.locators.search, { state: 'visible', timeout: 15000 });
         }
         await this.page.fill(this.locators.search, searchTerm);
         await waitAndInput(this.page, this.locators.search, searchTerm);
@@ -28,16 +29,12 @@ export class CommonPage {
     }
 
     async selectLeftSidebarMenuItem(itemName: string) {
-        const sidebarExpanded = await this.page.locator(this.locators.subMenu).first().isVisible();
-        if (!sidebarExpanded) {
-            await this.page.click(this.locators.expandButton);
-            await this.page.waitForSelector(this.locators.subMenu, { state: 'visible', timeout: 5000 });
-        }
+        await this.page.waitForLoadState('domcontentloaded');
         const subMenuItems = await this.page.locator(this.locators.subMenu).filter({hasText : itemName});
         try {
-            await subMenuItems.first().waitFor({ state: 'visible', timeout: 5000 });
+            await subMenuItems.first().waitFor({ state: 'visible', timeout: 15000 });
             await subMenuItems.first().click();
-            await this.page.waitForLoadState('networkidle');
+            await this.page.waitForLoadState('load');
         }
         catch (error) {
             throw new Error(`Failed to click submenu item "${itemName}": ${error}`);
@@ -46,12 +43,13 @@ export class CommonPage {
     }
 
     async selectMainMenuItem(itemName: string) {
+        await this.page.waitForLoadState('domcontentloaded');
         const mainMenuItems = await this.page.locator(this.locators.mainMenu).filter({hasText : itemName});
         console.log('mainMenuItems count: ', await mainMenuItems.count());
         try {
-            await mainMenuItems.first().waitFor({ state: 'visible', timeout: 5000 });
+            await mainMenuItems.first().waitFor({ state: 'visible', timeout: 15000 });
             await mainMenuItems.first().click();
-            await this.page.waitForLoadState('networkidle');
+            await this.page.waitForLoadState('load');
         }
         catch (error) {
             throw new Error(`Failed to click main menu item "${itemName}": ${error}`);
@@ -59,11 +57,13 @@ export class CommonPage {
         console.log(`--- URL after clicking "${itemName}" item: ${this.page.url()}`);
     }
 
-    async clickOnActionbutton(buttonName: string) {
+    async clickOnActionButton(buttonName: string) {
+        await this.page.waitForLoadState('domcontentloaded');
         const buttonLocator = await this.page.locator(this.locators.actionButton).filter({ hasText: buttonName });
         try {
-            await buttonLocator.first().waitFor({ state: 'visible', timeout: 5000 });
-            await waitAndClick(this.page,buttonLocator.first(), 5000);
+            await buttonLocator.first().waitFor({ state: 'visible', timeout: 15000 });
+            await waitAndClick(this.page,buttonLocator.first(), 15000);
+            await this.page.waitForLoadState('load');
         }
         catch (error) {
             throw new Error(`Failed to click on button "${buttonName}": ${error}`);
@@ -71,7 +71,7 @@ export class CommonPage {
     }
 
     async selectDropdownValue(dropdownLabel: string, option: string) {
-        
+        await this.page.waitForLoadState('domcontentloaded');
         const dropdownValue = await this.page.locator(this.locators.inputComponent)
         .filter({ hasText: dropdownLabel })
         .locator(this.locators.inputField);
@@ -83,13 +83,13 @@ export class CommonPage {
             const expandDropdown = await this.page.locator(this.locators.inputComponent)
             .filter({ hasText: dropdownLabel })
             .locator(this.locators.expandDropdown);
-            await expandDropdown.first().waitFor({ state: 'visible', timeout: 5000 });
-            await waitAndClick(this.page, expandDropdown.first(), 5000);
+            await expandDropdown.first().waitFor({ state: 'visible', timeout: 15000 });
+            await waitAndClick(this.page, expandDropdown.first(), 15000);
 
             const optionValue = await this.page.locator(this.locators.dropdownOption)
             .filter({ hasText: option });
-            await optionValue.first().waitFor({ state: 'visible', timeout: 5000 });
-            await waitAndClick(this.page,optionValue, 5000);
+            await optionValue.first().waitFor({ state: 'visible', timeout: 15000 });
+            await waitAndClick(this.page,optionValue, 15000);
         }
         catch (error) {
             throw new Error(`Failed to select "${option}": ${error}`);
@@ -97,11 +97,12 @@ export class CommonPage {
     }
 
     async inputValueToField(inputLabel: string, value: string) {
+        await this.page.waitForLoadState('domcontentloaded');
         const inputFieldLocator = await this.page.locator(this.locators.inputComponent)
         .filter({ hasText: inputLabel })
         .locator('input');
         try {
-            await inputFieldLocator.first().waitFor({ state: 'visible', timeout: 5000 });
+            await inputFieldLocator.first().waitFor({ state: 'visible', timeout: 15000 });
             await waitAndInput(this.page,inputFieldLocator.first(), value);
         }
         catch (error) {
@@ -110,17 +111,18 @@ export class CommonPage {
     }
 
     async inputValueToFieldWithHints(inputLabel: string, hints: string, value: string) {
+        await this.page.waitForLoadState('domcontentloaded');
         const inputFieldLocator = await this.page.locator(this.locators.inputComponent)
         .filter({ hasText: inputLabel })
         .locator('input');
         
         try {
-            await inputFieldLocator.first().waitFor({ state: 'visible', timeout: 5000 });
+            await inputFieldLocator.first().waitFor({ state: 'visible', timeout: 15000 });
             await waitAndInput(this.page,inputFieldLocator.first(), hints);
 
             const autoCompleteOptionLocator = this.page.locator(this.locators.autoCompleteOption).filter({ hasText: value });
-            await autoCompleteOptionLocator.first().waitFor({ state: 'visible', timeout: 5000 });
-            await waitAndClick(this.page,autoCompleteOptionLocator, 5000);
+            await autoCompleteOptionLocator.first().waitFor({ state: 'visible', timeout: 15000 });
+            await waitAndClick(this.page,autoCompleteOptionLocator, 15000);
         }
         catch (error) {
             throw new Error(`Failed to input value "${value}": ${error}`);
@@ -128,10 +130,11 @@ export class CommonPage {
     }
 
     async inputValueToFieldWithPlaceholder(placeholderLabel: string, value: string) {
+        await this.page.waitForLoadState('domcontentloaded');
         const inputFieldLocator = await this.page.locator(this.locators.employeeFullName,{has: this.page.locator(`input[placeholder="${placeholderLabel}"]`)})
         .locator('input');
         try {
-            await inputFieldLocator.first().waitFor({ state: 'visible', timeout: 5000 });
+            await inputFieldLocator.first().waitFor({ state: 'visible', timeout: 15000 });
             await waitAndInput(this.page,inputFieldLocator.first(), value);
         }
         catch (error) {
@@ -140,10 +143,11 @@ export class CommonPage {
     }
 
     async checkBoxWithLabel(checkboxLabel: string) {
+        await this.page.waitForLoadState('domcontentloaded');
         const checkboxFieldLocator = await this.page.locator(this.locators.checkbox, {hasText: checkboxLabel})
         .locator('input[type="checkbox"]');
         try {
-            await checkboxFieldLocator.first().waitFor({ state: 'visible', timeout: 5000 });
+            await checkboxFieldLocator.first().waitFor({ state: 'visible', timeout: 15000 });
             await waitAndCheck(this.page,checkboxFieldLocator);
         }
         catch (error) {
@@ -152,11 +156,11 @@ export class CommonPage {
     }
 
      async radioCheckWithLabel(radioCheckboxLabel: string, value: string) {
+        await this.page.waitForLoadState('domcontentloaded');
         const radioCheckFieldLocator = await this.page.locator(this.locators.inputComponent, { hasText: radioCheckboxLabel })
         .locator('label', { hasText: value });
-        console.log('radioCheckFieldLocator:',radioCheckFieldLocator);
         try {
-            await radioCheckFieldLocator.first().waitFor({ state: 'visible', timeout: 5000 });
+            await radioCheckFieldLocator.first().waitFor({ state: 'visible', timeout: 15000 });
             await waitAndRadioCheck(this.page,radioCheckFieldLocator, value);
         }
         catch (error) {
