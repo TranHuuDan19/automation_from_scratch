@@ -7,10 +7,10 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   use: {
         headless: process.env.CI ? true : false,
-        viewport: null,
+        viewport: process.env.CI ? { width: 1920, height: 1080 }: null,
         launchOptions: {
           slowMo: process.env.CI ? 0 : 10,
-          args: ['--start-maximized']
+          args: process.env.CI ? [] : ['--start-maximized'],
         },
         baseURL: env.baseURL,
         screenshot: 'only-on-failure',

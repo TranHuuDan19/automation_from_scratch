@@ -12,12 +12,12 @@ export class LoginPage {
   }
 
     async loginWithCredentials(username: string, password: string) {
+        await this.page.waitForLoadState('load');
         await this.page.waitForLoadState('domcontentloaded');
-        console.log(`--- Logging in with credentials: , { username, password } ---`);
         await waitAndInput(this.page, this.locators.userName, username);
         await waitAndInput(this.page, this.locators.password, password);
         await waitAndClick(this.page, this.locators.loginButton);
-        await this.page.waitForURL(url => url.toString().includes('/dashboard'), { timeout: 15000 });
+        await this.page.waitForURL(url => url.toString().includes('/dashboard'), { timeout: 30000 });
         await this.page.waitForLoadState('load');
     }
 
