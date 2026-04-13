@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev:smoke": "cross-env NODE_ENV=dev npx playwright test **/tests/*.spec.ts -g \"@smoke\"",
+    "dev:regression": "cross-env NODE_ENV=dev npx playwright test **/tests/*.spec.ts -g \"@regression\"",
     "dev": "cross-env NODE_ENV=dev npx playwright test",
     "report": "npx playwright show-report"
   },

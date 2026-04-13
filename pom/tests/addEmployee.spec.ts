@@ -20,7 +20,7 @@ test.describe('add user', () => {
     employee = await generateEmployeeInfo();
     
   });
-  test('add user',{tag: '@smoke' }, async () => {
+  test('add user',{tag: '@smoke @regression' }, async () => {
     await commonPage.inputValueToFieldWithPlaceholder('First Name', employee.firstName);
     await commonPage.inputValueToFieldWithPlaceholder('Middle Name', employee.middleName);
     await commonPage.inputValueToFieldWithPlaceholder('Last Name', employee.lastName);
