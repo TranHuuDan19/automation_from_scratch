@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -22,7 +22,7 @@ jobs:
           tags: pw-tests:latest
           load: true
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: ${{ github.ref == 'refs/heads/main' && 'type=gha,mode=max' || '' }}
 
       - name: Run regression tests
         run: |
@@ -38,7 +38,7 @@ jobs:
             npx playwright test -g "@regression"
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always() && !cancelled()
         with:
           name: regression-${{ github.run_id }}
