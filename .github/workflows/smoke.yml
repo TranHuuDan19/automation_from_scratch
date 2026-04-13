@@ -1,57 +1,48 @@
-name: Playwright Run Smoke Tests
+name: Playwright Smoke Tests
 
 on:
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
 
 jobs:
-  run_smoke_test:
-    timeout-minutes: 60
+  smoke:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 18
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Cache npm
-      uses: actions/cache@v4
-      with:
-        path: ~/.npm
-        key: npm-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-        restore-keys: |
-          npm-${{ runner.os }}-
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          tags: pw-tests:latest
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-    - run: npm ci
+      - name: Run smoke tests
+        run: |
+          docker run \
+            -e CI=true \
+            -e NODE_ENV=dev \
+            -e USERNAME=${{ secrets.USERNAME }} \
+            -e PASSWORD=${{ secrets.PASSWORD }} \
+            -e BASE_URL=${{ secrets.BASE_URL }} \
+            -v ${{ github.workspace }}/playwright-report:/app/playwright-report \
+            -v ${{ github.workspace }}/test-results:/app/test-results \
+            pw-tests \
+            npx playwright test -g "@smoke"
 
-    - name: Cache Playwright Browsers
-      id: cache-playwright
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/ms-playwright
-        key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-    - name: Install Playwright Browsers
-      if: steps.cache-playwright.outputs.cache-hit != 'true'
-      run: npx playwright install chromium --with-deps
-
-    - name: Run Playwright tests
-      run: npx playwright test -g "@smoke"
-      env:
-        CI: true
-        NODE_ENV: dev
-        USERNAME: ${{ secrets.USERNAME }}
-        PASSWORD: ${{ secrets.PASSWORD }}
-        BASE_URL: ${{ secrets.BASE_URL }}
-
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v4
-      if: always() && !cancelled()
-      with:
-        name: test-artifacts-${{ github.run_id }}
-        path: |
-          playwright-report/
-          test-results/
-        retention-days: 7
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        if: always() && !cancelled()
+        with:
+          name: smoke-${{ github.run_id }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
