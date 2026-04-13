@@ -1,11 +1,11 @@
-name: Playwright Smoke Tests
+name: Playwright Regression Tests
 
 on:
-  pull_request:
-    branches: [main, master]
+  schedule:
+    - cron: '0 5 * * *'      
 
 jobs:
-  smoke:
+  regression:
     timeout-minutes: 30
     runs-on: ubuntu-latest
 
@@ -24,7 +24,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Run smoke tests
+      - name: Run regression tests
         run: |
           docker run \
             -e CI=true \
@@ -35,14 +35,14 @@ jobs:
             -v ${{ github.workspace }}/playwright-report:/app/playwright-report \
             -v ${{ github.workspace }}/test-results:/app/test-results \
             pw-tests \
-            npx playwright test -g "@smoke"
+            npx playwright test -g "@regression"
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         if: always() && !cancelled()
         with:
-          name: smoke-${{ github.run_id }}
+          name: regression-${{ github.run_id }}
           path: |
             playwright-report/
             test-results/
-          retention-days: 7
+          retention-days: 14
