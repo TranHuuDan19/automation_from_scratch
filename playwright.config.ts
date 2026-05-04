@@ -1,22 +1,22 @@
 import { defineConfig } from '@playwright/test';
-import env from './utils/config/env' 
+import env from './utils/config/env';
 
 export default defineConfig({
   outputDir: './test-results/artifacts/',
   workers: process.env.CI ? '100%' : 2,
   retries: process.env.CI ? 1 : 0,
   use: {
-        headless: process.env.CI ? true : false,
-        viewport: process.env.CI ? { width: 1920, height: 1080 }: null,
-        launchOptions: {
-          slowMo: process.env.CI ? 0 : 10,
-          args: process.env.CI ? [] : ['--start-maximized'],
-        },
-        baseURL: env.baseURL,
-        screenshot: 'only-on-failure',
-        video: process.env.CI ? 'off' : 'retain-on-failure',
-        trace: 'retain-on-failure',  
-      },
+    headless: process.env.CI ? true : false,
+    viewport: process.env.CI ? { width: 1920, height: 1080 } : null,
+    launchOptions: {
+      slowMo: process.env.CI ? 0 : 10,
+      args: process.env.CI ? [] : ['--start-maximized'],
+    },
+    baseURL: env.baseURL,
+    screenshot: 'only-on-failure',
+    video: process.env.CI ? 'off' : 'retain-on-failure',
+    trace: 'retain-on-failure',
+  },
   projects: [
     {
       name: 'setup',
@@ -27,14 +27,14 @@ export default defineConfig({
       testMatch: '**/pom/tests/*.spec.ts',
       dependencies: ['setup'],
       use: { storageState: `storage/auth-${process.env.NODE_ENV}.json` },
-    }
+    },
   ],
   reporter: [
     [
-      "html",
+      'html',
       {
-        open: "never",
-        outputFolder: './playwright-report/', 
+        open: 'never',
+        outputFolder: './playwright-report/',
       },
     ],
   ],

@@ -3,22 +3,21 @@ import { LoginLocator } from '../locators/loginLocator';
 import { waitAndClick, waitAndInput } from '../../utils/helper';
 
 export class LoginPage {
-    locators: Record<string, string>;
-    page: Page;
-    
-    constructor(page: Page) {
-        this.page = page;
-        this.locators = LoginLocator;
+  locators: Record<string, string>;
+  page: Page;
+
+  constructor(page: Page) {
+    this.page = page;
+    this.locators = LoginLocator;
   }
 
-    async loginWithCredentials(username: string, password: string) {
-        await this.page.waitForLoadState('load');
-        await this.page.waitForLoadState('domcontentloaded');
-        await waitAndInput(this.page, this.locators.userName, username);
-        await waitAndInput(this.page, this.locators.password, password);
-        await waitAndClick(this.page, this.locators.loginButton);
-        await this.page.waitForURL(url => url.toString().includes('/dashboard'), { timeout: 30000 });
-        await this.page.waitForLoadState('load');
-    }
-
+  async loginWithCredentials(username: string, password: string) {
+    await this.page.waitForLoadState('load');
+    await this.page.waitForLoadState('domcontentloaded');
+    await waitAndInput(this.page, this.locators.userName, username);
+    await waitAndInput(this.page, this.locators.password, password);
+    await waitAndClick(this.page, this.locators.loginButton);
+    await this.page.waitForURL((url) => url.toString().includes('/dashboard'), { timeout: 30000 });
+    await this.page.waitForLoadState('load');
+  }
 }

@@ -29,7 +29,7 @@
 **Viết selector cho element có text “Submit”**
 
 ```ts id="ex1"
-page.getByText('Submit')
+page.getByText('Submit');
 ```
 
 **Locate element trong shadow DOM?**
@@ -69,7 +69,7 @@ await expect(locator).toHaveAttribute('type', 'text');
 
 ```ts id="ex5"
 await page.setInputFiles('input[type=file]', 'file.png');
-page.on('dialog', dialog => dialog.accept());
+page.on('dialog', (dialog) => dialog.accept());
 ```
 
 ---
@@ -164,7 +164,7 @@ await expect(page).toHaveScreenshot();
 **Intercept request?**
 
 ```ts id="ex11"
-await page.route('**/api', route => route.continue());
+await page.route('**/api', (route) => route.continue());
 ```
 
 **Mock API?**
@@ -287,10 +287,10 @@ await context.tracing.start();
 
 ## 📌 Tips chuẩn bị
 
-* Nắm chắc async/await
-* Ưu tiên locator stable
-* Tránh hard wait (`waitForTimeout`)
-* Practice real scenarios
-* Hiểu rõ Playwright auto-wait
+- Nắm chắc async/await
+- Ưu tiên locator stable
+- Tránh hard wait (`waitForTimeout`)
+- Practice real scenarios
+- Hiểu rõ Playwright auto-wait
 
 ---

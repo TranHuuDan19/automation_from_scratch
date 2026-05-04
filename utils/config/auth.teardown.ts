@@ -1,5 +1,5 @@
 async function teardown() {
-    // teardown code
+  // teardown code
 }
 
 export default teardown;
