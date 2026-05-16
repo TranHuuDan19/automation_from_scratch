@@ -1,5 +1,5 @@
 import { defineConfig } from '@playwright/test';
-import env from './utils/config/env';
+import env from './src/utils/config/env';
 
 export default defineConfig({
   outputDir: './test-results/artifacts/',
@@ -20,11 +20,11 @@ export default defineConfig({
   projects: [
     {
       name: 'setup',
-      testMatch: '**/utils/config/auth.setup.ts',
+      testMatch: 'src/utils/config/auth.setup.ts',
     },
     {
       name: 'run test',
-      testMatch: '**/pom/tests/*.spec.ts',
+      testMatch: 'src/pom/tests/*.spec.ts',
       dependencies: ['setup'],
       use: { storageState: `storage/auth-${process.env.NODE_ENV}.json` },
     },

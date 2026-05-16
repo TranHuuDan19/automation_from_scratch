@@ -1,9 +1,8 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import {
-  AddEmployeeLocators,
-  EmployeeListLocators,
   LeftSidebarMenuLocators,
   TopMenuBarLocators,
+  InputLocators,
 } from '../locators/commonLocator';
 import { waitAndCheck, waitAndClick, waitAndInput, waitAndRadioCheck } from '../../utils/helper';
 
@@ -16,8 +15,7 @@ export class CommonPage {
     this.locators = {
       ...LeftSidebarMenuLocators,
       ...TopMenuBarLocators,
-      ...EmployeeListLocators,
-      ...AddEmployeeLocators,
+      ...InputLocators,
     };
   }
 
@@ -115,6 +113,7 @@ export class CommonPage {
     } catch (error) {
       throw new Error(`Failed to input value "${value}": ${error}`);
     }
+    await expect(inputFieldLocator.first()).toHaveValue(value);
   }
 
   async inputValueToFieldWithHints(inputLabel: string, hints: string, value: string) {
@@ -136,6 +135,7 @@ export class CommonPage {
     } catch (error) {
       throw new Error(`Failed to input value "${value}": ${error}`);
     }
+    await expect(inputFieldLocator.first()).toHaveValue(value);
   }
 
   async inputValueToFieldWithPlaceholder(placeholderLabel: string, value: string) {
@@ -151,6 +151,7 @@ export class CommonPage {
     } catch (error) {
       throw new Error(`Failed to input value "${value}": ${error}`);
     }
+    await expect(inputFieldLocator.first()).toHaveValue(value);
   }
 
   async checkBoxWithLabel(checkboxLabel: string) {
