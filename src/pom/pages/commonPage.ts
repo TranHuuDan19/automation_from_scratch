@@ -20,7 +20,7 @@ export class CommonPage {
   }
 
   async searchInLeftSidebar(searchTerm: string) {
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState('load');
     const sidebarExpanded = await this.page.locator(this.locators.subMenu).first().isVisible();
     if (!sidebarExpanded) {
       await this.page.click(this.locators.expandButton);
@@ -32,10 +32,12 @@ export class CommonPage {
   }
 
   async selectLeftSidebarMenuItem(itemName: string) {
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState('load');
     const subMenuItems = await this.page
       .locator(this.locators.subMenu)
       .filter({ hasText: itemName });
+
+    // const subMenuItems = await this.page.getByRole('menuitem', { name: `${itemName}` });
     try {
       await subMenuItems.first().waitFor({ state: 'visible', timeout: 30000 });
       await subMenuItems.first().click();
@@ -46,7 +48,7 @@ export class CommonPage {
   }
 
   async selectMainMenuItem(itemName: string) {
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState('load');
     const mainMenuItems = await this.page
       .locator(this.locators.mainMenu)
       .filter({ hasText: itemName });
@@ -60,10 +62,8 @@ export class CommonPage {
   }
 
   async clickOnActionButton(buttonName: string) {
-    await this.page.waitForLoadState('domcontentloaded');
-    const buttonLocator = await this.page
-      .locator(this.locators.actionButton)
-      .filter({ hasText: buttonName });
+    await this.page.waitForLoadState('load');
+    const buttonLocator = await this.page.getByRole('button', { name: buttonName });
     try {
       await buttonLocator.first().waitFor({ state: 'visible', timeout: 30000 });
       await waitAndClick(this.page, buttonLocator.first(), 30000);
@@ -74,7 +74,7 @@ export class CommonPage {
   }
 
   async selectDropdownValue(dropdownLabel: string, option: string) {
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState('load');
     const dropdownValue = await this.page
       .locator(this.locators.inputComponent)
       .filter({ hasText: dropdownLabel })
@@ -102,7 +102,7 @@ export class CommonPage {
   }
 
   async inputValueToField(inputLabel: string, value: string) {
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState('load');
     const inputFieldLocator = await this.page
       .locator(this.locators.inputComponent)
       .filter({ hasText: inputLabel })
@@ -117,7 +117,7 @@ export class CommonPage {
   }
 
   async inputValueToFieldWithHints(inputLabel: string, hints: string, value: string) {
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState('load');
     const inputFieldLocator = await this.page
       .locator(this.locators.inputComponent)
       .filter({ hasText: inputLabel })
@@ -139,7 +139,7 @@ export class CommonPage {
   }
 
   async inputValueToFieldWithPlaceholder(placeholderLabel: string, value: string) {
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState('load');
     const inputFieldLocator = await this.page
       .locator(this.locators.employeeFullName, {
         has: this.page.locator(`input[placeholder="${placeholderLabel}"]`),
@@ -155,7 +155,7 @@ export class CommonPage {
   }
 
   async checkBoxWithLabel(checkboxLabel: string) {
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState('load');
     const checkboxFieldLocator = await this.page.locator(this.locators.checkbox, {
       hasText: checkboxLabel,
     });
@@ -168,7 +168,7 @@ export class CommonPage {
   }
 
   async radioCheckWithLabel(radioCheckboxLabel: string, value: string) {
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState('load');
     const radioCheckFieldLocator = await this.page
       .locator(this.locators.inputComponent, { hasText: radioCheckboxLabel })
       .locator('label', { hasText: value });

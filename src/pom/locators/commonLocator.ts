@@ -11,7 +11,6 @@ export const TopMenuBarLocators = {
 export const InputLocators = {
   inputComponent: '.oxd-input-group',
   dropdownOption: '.oxd-select-option',
-  actionButton: '.oxd-button.oxd-button--medium.oxd-button',
   inputField: '.oxd-select-text-input',
   expandDropdown: '.oxd-select-text--after',
   autoCompleteOption: '.oxd-autocomplete-option',

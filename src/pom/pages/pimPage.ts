@@ -26,7 +26,9 @@ export class PimPage extends CommonPage {
     await this.radioCheckWithLabel('Status', employee.status);
     await this.clickOnActionButton('Save');
     await this.page.waitForURL((url) => !url.toString().includes('addEmployee'));
-    await expect(this.page).toHaveURL(/\/pim\/viewPersonalDetails\/empNumber\/\d+/, { timeout: 30000 });
+    await expect(this.page).toHaveURL(/\/pim\/viewPersonalDetails\/empNumber\/\d+/, {
+      timeout: 30000,
+    });
   }
 
   async verifyEmployeeExists(employeeId: string) {

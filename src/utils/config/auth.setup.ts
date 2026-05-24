@@ -2,7 +2,7 @@ import { test as setup, chromium } from '@playwright/test';
 import env from './env';
 import { LoginPage } from '../../pom/pages/loginPage';
 
-setup('Setup user authentication', async () => {
+setup('Setup Login For Authentication', async () => {
   const browser = await chromium.launch();
   const context = await browser.newContext();
   const page = await context.newPage();
