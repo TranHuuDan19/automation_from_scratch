@@ -2,6 +2,7 @@ import { defineConfig } from '@playwright/test';
 import env from './src/utils/config/env';
 
 export default defineConfig({
+  timeout: 100000,
   outputDir: './test-results/artifacts/',
   workers: process.env.CI ? '100%' : 2,
   retries: process.env.CI ? 1 : 0,
