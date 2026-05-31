@@ -29,6 +29,11 @@ test.describe('add user', () => {
     employeeInfo = await generateEmployeeInfo();
   });
   test('add user', { tag: '@smoke @regression' }, async () => {
+    await commonPage.selectDropdownMainMenuItem('Configuration', 'Optional Fields');
+    await expect(commonPage.page.url()).toContain(URL_PATHS.pim.configuration.optionalFields);
+    await commonPage.selectDropdownMainMenuItem('Configuration', 'Data Import');
+    await expect(commonPage.page.url()).toContain(URL_PATHS.pim.configuration.dataImport);
+    await commonPage.selectMainMenuItem('Add Employee');
     await pimPage.addEmployee(employeeInfo);
     await expect(commonPage.page).toHaveTitle(PAGE_TITLES.orangeHrm);
     await commonPage.selectMainMenuItem('Employee List');

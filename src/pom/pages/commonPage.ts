@@ -36,8 +36,6 @@ export class CommonPage {
     const subMenuItems = await this.page
       .locator(this.locators.subMenu)
       .filter({ hasText: itemName });
-
-    // const subMenuItems = await this.page.getByRole('menuitem', { name: `${itemName}` });
     try {
       await subMenuItems.first().waitFor({ state: 'visible', timeout: 30000 });
       await subMenuItems.first().click();
@@ -58,6 +56,25 @@ export class CommonPage {
       await this.page.waitForLoadState('load');
     } catch (error) {
       throw new Error(`Failed to click main menu item "${itemName}": ${error}`);
+    }
+  }
+
+  async selectDropdownMainMenuItem(itemName: string, option: string) {
+    await this.page.waitForLoadState('load');
+    try {
+      const expandDropdownMainMenu = await this.page
+        .locator(this.locators.mainMenu)
+        .filter({ hasText: itemName });
+      await expandDropdownMainMenu.first().waitFor({ state: 'visible', timeout: 30000 });
+      await waitAndClick(this.page, expandDropdownMainMenu.first(), 30000);
+
+      const optionValue = await this.page
+        .locator(this.locators.mainMenuDropdownOption)
+        .filter({ hasText: option });
+      await optionValue.first().waitFor({ state: 'visible', timeout: 30000 });
+      await waitAndClick(this.page, optionValue, 30000);
+    } catch (error) {
+      throw new Error(`Failed to select "${option}": ${error}`);
     }
   }
 

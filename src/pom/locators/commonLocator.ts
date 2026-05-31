@@ -6,6 +6,7 @@ export const LeftSidebarMenuLocators = {
 
 export const TopMenuBarLocators = {
   mainMenu: 'li.oxd-topbar-body-nav-tab',
+  mainMenuDropdownOption: '.oxd-topbar-body-nav-tab-link',
 };
 
 export const InputLocators = {
