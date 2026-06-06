@@ -18,6 +18,8 @@ Sau khi hoàn thành roadmap, repo nên thể hiện được các năng lực s
 
 ## Cách Commit Theo Tuần
 
+> Trạng thái hiện tại: Weeks 1-4 đã hoàn thành.
+
 Mỗi tuần nên có ít nhất 1 commit chính, tốt nhất là 2-4 commit nhỏ. Format commit gợi ý:
 
 ```text
@@ -135,13 +137,13 @@ Giảm phụ thuộc vào CSS class động, chuyển dần sang locator ổn đ
 
 ### Checklist Hàng Tuần
 
-- [ ] Review tất cả locator trong `pom/locators/`
-- [ ] Thay thế CSS selector bằng `getByPlaceholder` cho input
-- [ ] Thay thế CSS selector bằng `getByRole` cho button
-- [ ] Thay thế CSS selector bằng `getByText` hoặc `getByRole` cho menu
-- [ ] Cập nhật method trong page object nếu cần
-- [ ] Ghi chú locator strategy trong README
-- [ ] Chạy smoke test kiểm tra
+- [x] Review tất cả locator trong `pom/locators/`
+- [x] Thay thế CSS selector bằng `getByPlaceholder` cho input
+- [x] Thay thế CSS selector bằng `getByRole` cho button
+- [x] Thay thế CSS selector bằng `getByText` hoặc `getByRole` cho menu
+- [x] Cập nhật method trong page object nếu cần
+- [x] Ghi chú locator strategy trong README
+- [x] Chạy smoke test kiểm tra
 
 ### Thời Gian Dự Kiến
 
@@ -192,13 +194,13 @@ Refactor `CommonPage` để framework giống project thật hơn. Page object n
 
 ### Checklist Hàng Tuần
 
-- [ ] Tạo file `dashboardPage.ts`
-- [ ] Tạo file `pimPage.ts`
-- [ ] Tạo file `addEmployeePage.ts`
-- [ ] Tạo file `employeeListPage.ts`
-- [ ] Di chuyển method từ `CommonPage` sang các page mới
-- [ ] Cập nhật test spec để import và sử dụng page mới
-- [ ] Chạy smoke test kiểm tra
+- [x] Tạo file `dashboardPage.ts`
+- [x] Tạo file `pimPage.ts`
+- [x] Tạo file `addEmployeePage.ts`
+- [x] Tạo file `employeeListPage.ts`
+- [x] Di chuyển method từ `CommonPage` sang các page mới
+- [x] Cập nhật test spec để import và sử dụng page mới
+- [x] Chạy smoke test kiểm tra
 
 ### Thời Gian Dự Kiến
 
@@ -255,12 +257,12 @@ Giảm duplicate setup trong spec và học pattern công ty hay dùng: `test.ex
 
 ### Checklist Hàng Tuần
 
-- [ ] Tạo folder `fixtures/` nếu chưa có
-- [ ] Tạo file `fixtures/pages.fixture.ts`
-- [ ] Định nghĩa fixture cho các page objects
-- [ ] Cập nhật test spec import từ fixture
-- [ ] Xóa code khởi tạo page object trong test
-- [ ] Chạy smoke test kiểm tra
+- [x] Tạo folder `fixtures/` nếu chưa có
+- [x] Tạo file `fixtures/pages.fixture.ts`
+- [x] Định nghĩa fixture cho các page objects
+- [x] Cập nhật test spec import từ fixture
+- [x] Xóa code khởi tạo page object trong test
+- [x] Chạy smoke test kiểm tra
 
 ### Thời Gian Dự Kiến
 
