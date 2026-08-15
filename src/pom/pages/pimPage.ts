@@ -47,4 +47,30 @@ export class PimPage extends CommonPage {
     await expect(employeeRow).toBeVisible({ timeout: 30000 });
     await expect(employeeRow).toContainText(employeeId);
   }
+<<<<<<< HEAD
+=======
+
+  async deleteEmployee(employeeId: string) {
+    await this.inputValueToField('Employee Id', employeeId);
+    await this.clickOnActionButton('Search');
+
+    const tableLoader = this.page.locator(this.pimLocators.tableLoader);
+    await expect(tableLoader).toBeHidden({ timeout: 30000 });
+
+    const deleteButton = this.page
+      .locator(this.pimLocators.employeeTableRow)
+      .filter({ hasText: employeeId })
+      .locator(this.pimLocators.deleteButton)
+      .first();
+    
+    await deleteButton.waitFor({ state: 'visible', timeout: 30000 });
+    await deleteButton.click();
+
+    const confirmDelete = this.page.locator(this.pimLocators.confirmDeleteButton);
+    await confirmDelete.waitFor({ state: 'visible', timeout: 30000 });
+    await confirmDelete.click();
+    
+    await expect(tableLoader).toBeHidden({ timeout: 30000 });
+  }
+>>>>>>> feat/week6-remaining-task
 }

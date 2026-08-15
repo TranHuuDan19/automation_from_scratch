@@ -18,4 +18,8 @@ export const InputLocators = {
   employeeFullName: '.oxd-input-field-bottom-space',
   checkbox: '.oxd-form-row.user-form-header',
   radio: '.oxd-radio-input',
+<<<<<<< HEAD
+=======
+  errorMessage: '.oxd-input-group .oxd-input-field-error-message',
+>>>>>>> feat/week6-remaining-task
 };

@@ -1,10 +1,19 @@
 import { expect, test } from '../../fixtures/pageFixture';
 import env from '../../utils/config/env';
+<<<<<<< HEAD
 import { generateEmployeeInfo } from '../../utils/faker';
 import { PAGE_TITLES, URL_PATHS } from '../../utils/constant';
 
 test.describe('add user', () => {
   let employeeInfo: any;
+=======
+import { PAGE_TITLES, URL_PATHS } from '../../utils/constant';
+import { EmployeeFactory } from '../../utils/data/employee.factory';
+import { Employee } from '../../types/employee';
+
+test.describe('add user', () => {
+  let employeeInfo: Employee;
+>>>>>>> feat/week6-remaining-task
 
   test.beforeEach(async ({ page, commonPage }) => {
     test.info().setTimeout(360000);
@@ -20,8 +29,21 @@ test.describe('add user', () => {
     await expect(page).toHaveTitle(PAGE_TITLES.orangeHrm);
 
     // setup data
+<<<<<<< HEAD
     employeeInfo = await generateEmployeeInfo();
   });
+=======
+    employeeInfo = await EmployeeFactory.createEmployee();
+  });
+
+  test.afterEach(async ({ commonPage, pimPage }) => {
+    // Cleanup: Delete the created employee
+    await commonPage.selectLeftSidebarMenuItem('PIM');
+    await commonPage.selectMainMenuItem('Employee List');
+    await pimPage.deleteEmployee(employeeInfo.employeeId);
+  });
+
+>>>>>>> feat/week6-remaining-task
   test('add user', { tag: '@smoke @regression' }, async ({ commonPage, pimPage }) => {
     await commonPage.selectDropdownMainMenuItem('Configuration', 'Optional Fields');
     await expect(commonPage.page.url()).toContain(URL_PATHS.pim.configuration.optionalFields);

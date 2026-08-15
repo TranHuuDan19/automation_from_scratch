@@ -8,7 +8,13 @@ async function getFaker() {
   return fakerInstance;
 }
 
+<<<<<<< HEAD
 export async function generateEmployeeInfo() {
+=======
+import { Employee } from '../types/employee';
+
+export async function generateEmployeeInfo(): Promise<Employee> {
+>>>>>>> feat/week6-remaining-task
   const faker = await getFaker();
 
   const firstName = await faker.person.firstName();

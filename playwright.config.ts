@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { defineConfig } from '@playwright/test';
+=======
+import { defineConfig, devices } from '@playwright/test';
+>>>>>>> feat/week6-remaining-task
 import env from './src/utils/config/env';
 
 export default defineConfig({
@@ -24,10 +28,38 @@ export default defineConfig({
       testMatch: 'src/utils/config/auth.setup.ts',
     },
     {
+<<<<<<< HEAD
       name: 'run test',
       testMatch: 'src/pom/tests/*.spec.ts',
       dependencies: ['setup'],
       use: { storageState: `storage/auth-${process.env.NODE_ENV}.json` },
+=======
+      name: 'chromium',
+      testMatch: 'src/**/*.spec.ts',
+      dependencies: ['setup'],
+      use: { 
+        browserName: 'chromium',
+        storageState: `storage/auth-${process.env.NODE_ENV}.json` 
+      },
+    },
+    {
+      name: 'firefox',
+      testMatch: 'src/**/*.spec.ts',
+      dependencies: ['setup'],
+      use: { 
+        browserName: 'firefox',
+        storageState: `storage/auth-${process.env.NODE_ENV}.json` 
+      },
+    },
+    {
+      name: 'Mobile Chrome',
+      testMatch: 'src/**/*.spec.ts',
+      dependencies: ['setup'],
+      use: { 
+        ...devices['Pixel 5'],
+        storageState: `storage/auth-${process.env.NODE_ENV}.json` 
+      },
+>>>>>>> feat/week6-remaining-task
     },
   ],
   reporter: [

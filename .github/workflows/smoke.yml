@@ -24,6 +24,15 @@ jobs:
           cache-from: type=gha
           cache-to: ${{ github.ref == 'refs/heads/main' && 'type=gha,mode=max' || '' }}
 
+<<<<<<< HEAD
+=======
+      - name: Run quality gates
+        run: |
+          docker run pw-tests npm run lint
+          docker run pw-tests npm run format:check
+          docker run pw-tests npm run typecheck
+
+>>>>>>> feat/week6-remaining-task
       - name: Run smoke tests
         run: |
           docker run \

@@ -16,7 +16,12 @@ A robust end-to-end test automation framework built with **Playwright** using th
 - [Running Tests](#running-tests)
 - [Test Tags](#test-tags)
 - [Environment Variables](#environment-variables)
+<<<<<<< HEAD
 - [Viewing Reports](#viewing-reports)
+=======
+- [Debugging Failed Tests](#debugging-failed-tests)
+- [Test Strategy & Documentation](#test-strategy--documentation)
+>>>>>>> feat/week6-remaining-task
 - [Troubleshooting](#troubleshooting)
 - [Best Practices](#best-practices)
 
@@ -328,6 +333,15 @@ Regression tests validate the complete application:
 npm run dev:regression
 ```
 
+<<<<<<< HEAD
+=======
+### Run API Tests
+
+```bash
+npm run test:api
+```
+
+>>>>>>> feat/week6-remaining-task
 ### Run Tests in Headed Mode (with Browser UI)
 
 By default, tests run in headless mode. To see the browser:
@@ -354,6 +368,52 @@ npx playwright test --debug
 npx playwright test --ui
 ```
 
+<<<<<<< HEAD
+=======
+### Generate and View HTML Report
+
+```bash
+npx playwright show-report
+```
+
+---
+
+## 🐛 Debugging Failed Tests
+
+When a test fails, you can use the following commands to investigate:
+
+### Open the HTML Report
+The report contains screenshots and videos for failed tests.
+```bash
+npm run report
+```
+
+### Run Test in Debug Mode
+This opens the Playwright Inspector, allowing you to step through the test.
+```bash
+npx playwright test --debug
+```
+
+### Run with Trace Viewer
+Traces provide a full timeline of the test execution, including network requests, console logs, and DOM snapshots.
+```bash
+# Run a specific test with tracing enabled
+npx playwright test path/to/spec.ts --trace on
+
+# View the generated trace
+npx playwright show-trace test-results/artifacts/.../trace.zip
+```
+
+---
+
+## 📚 Test Strategy & Documentation
+
+For more detailed information about the testing approach, please refer to:
+- [Test Strategy](docs/test-strategy.md)
+- [Test Coverage Matrix](docs/test-coverage-matrix.md)
+- [Interview Notes & Architecture](docs/interview-notes.md)
+
+>>>>>>> feat/week6-remaining-task
 ---
 
 ## 🏷️ Test Tags

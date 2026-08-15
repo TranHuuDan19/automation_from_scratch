@@ -1,6 +1,10 @@
 name: Playwright Regression Tests
 
 on:
+<<<<<<< HEAD
+=======
+  workflow_dispatch:
+>>>>>>> feat/week6-remaining-task
   schedule:
     - cron: '0 5 1 * *'
 
@@ -8,6 +12,14 @@ jobs:
   regression:
     timeout-minutes: 30
     runs-on: ubuntu-latest
+<<<<<<< HEAD
+=======
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2]
+        shardTotal: [2]
+>>>>>>> feat/week6-remaining-task
 
     steps:
       - uses: actions/checkout@v6
@@ -24,6 +36,15 @@ jobs:
           cache-from: type=gha
           cache-to: ${{ github.ref == 'refs/heads/main' && 'type=gha,mode=max' || '' }}
 
+<<<<<<< HEAD
+=======
+      - name: Run quality gates
+        run: |
+          docker run pw-tests npm run lint
+          docker run pw-tests npm run format:check
+          docker run pw-tests npm run typecheck
+
+>>>>>>> feat/week6-remaining-task
       - name: Run regression tests
         run: |
           docker run \
@@ -35,13 +56,21 @@ jobs:
             -v ${{ github.workspace }}/playwright-report:/app/playwright-report \
             -v ${{ github.workspace }}/test-results:/app/test-results \
             pw-tests \
+<<<<<<< HEAD
             npx playwright test -g "@regression"
+=======
+            npx playwright test -g "@regression" --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+>>>>>>> feat/week6-remaining-task
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v7
         if: always() && !cancelled()
         with:
+<<<<<<< HEAD
           name: regression-${{ github.run_id }}
+=======
+          name: regression-${{ github.run_id }}-shard-${{ matrix.shardIndex }}
+>>>>>>> feat/week6-remaining-task
           path: |
             playwright-report/
             test-results/
